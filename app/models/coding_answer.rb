@@ -1,0 +1,2 @@
+class CodingAnswer < Answer
+end
