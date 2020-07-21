@@ -1,0 +1,2 @@
+class QuestionPaper < ApplicationRecord
+end

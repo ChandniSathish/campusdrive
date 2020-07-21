@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_20_213415) do
+ActiveRecord::Schema.define(version: 2020_07_21_073621) do
 
   create_table "answers", force: :cascade do |t|
     t.string "type"
@@ -35,6 +35,33 @@ ActiveRecord::Schema.define(version: 2020_07_20_213415) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "question_paper_questions", force: :cascade do |t|
+    t.integer "question_paper_id", null: false
+    t.integer "question_paper_section_id", null: false
+    t.integer "question_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_question_paper_questions_on_question_id"
+    t.index ["question_paper_id"], name: "index_question_paper_questions_on_question_paper_id"
+    t.index ["question_paper_section_id"], name: "index_question_paper_questions_on_question_paper_section_id"
+  end
+
+  create_table "question_paper_sections", force: :cascade do |t|
+    t.string "name"
+    t.integer "question_paper_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_paper_id"], name: "index_question_paper_sections_on_question_paper_id"
+  end
+
+  create_table "question_papers", force: :cascade do |t|
+    t.string "name"
+    t.integer "duration"
+    t.text "instructions"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "type"
     t.text "question"
@@ -46,5 +73,9 @@ ActiveRecord::Schema.define(version: 2020_07_20_213415) do
 
   add_foreign_key "answers", "mcq_choices"
   add_foreign_key "mcq_choices", "questions"
+  add_foreign_key "question_paper_questions", "question_paper_sections"
+  add_foreign_key "question_paper_questions", "question_papers"
+  add_foreign_key "question_paper_questions", "questions"
+  add_foreign_key "question_paper_sections", "question_papers"
   add_foreign_key "questions", "question_banks"
 end
